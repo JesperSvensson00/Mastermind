@@ -1,0 +1,110 @@
+.gameWrapper {
+  margin: auto;
+  margin-top: 5%;
+  width: 800px;
+  height: 90%;
+  text-align: center;
+  background-color: cornsilk;
+}
+
+.boardWrapper {
+  display: inline-block;
+  width: 500px;
+  height: 100%;
+  margin: auto;
+  background-color: green;
+}
+
+.rowWrapper {
+  background-color: greenyellow;
+  border-bottom: #6e6a64 2px solid;
+  overflow: hidden;
+}
+
+.pinWrapper {
+  float: left;
+  vertical-align: top;
+  background-color: pink;
+}
+
+.pin {
+  width: 60px;
+  height: 60px;
+  margin: 6px;
+  background-color: white;
+  border-radius: 50%;
+  border: #9e9e9e 2px solid;
+  outline: none;
+}
+
+.keyWrapper {
+  float: left;
+  margin-left: 10px;
+  vertical-align: top;
+  background-color: royalblue;
+}
+
+table {
+  width: 60px;
+  height: 60px;
+  margin: 6px;
+  text-align: center;
+  background-color: plum;
+}
+
+.key {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.checkWrapper {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.check {
+  width: 60px;
+  height: 60px;
+  margin: 6px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bolder;
+  color: green;
+  border: none;
+  outline: none;
+  background-color: none;
+  background: none;
+}
+
+.check:hover {
+  color: lightgreen;
+}
+
+/* Option menu */
+
+.optionWrapper {
+  width: 80px;
+  margin-right: 120px;
+  float: right;
+  text-align: center;
+  background-color: grey;
+}
+
+.colorOption {
+  width: 60px;
+  height: 60px;
+  margin: 6px;
+  background-color: white;
+  border-radius: 50%;
+
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+.activeColor {
+  /* width: 62px;
+  height: 62px; */
+  box-shadow: inset 0px 0px 4px 0px rgba(56, 55, 52, 0.63);
+  border: #f7d608 3px solid;
+}
