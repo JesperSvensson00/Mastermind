@@ -9,6 +9,31 @@
         <button class="colorOption" id="4"></button>
         <button class="colorOption" id="5"></button>
         <button class="colorOption" id="6"></button>
+        <div class="menuWrapper">
+          <p class="settingsBtn">Inställningar</p>
+          <div class="settingsWrapper">
+            <label for="rows">Antal rader:</label>
+            <input name="rows" type="number" value="10" min="1" max="16" />
+
+            <label for="cols">Antal pins:</label>
+            <select name="cols" id="colsSelect">
+              <option value="4">4</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+            </select>
+
+            <label for="duplicates">Duplicates:</label>
+            <input type="checkbox" name="duplicates" id="duplicatesInp" />
+
+            <label for="theme">Tema:</label>
+            <select name="theme" id="themeSelect">
+              <option value="3">Vanlig</option>
+              <option value="0">Nästan</option>
+              <option value="1">Beach</option>
+              <option value="2">Pastele</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -17,6 +42,7 @@
     <title>Mastermind</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
+    <script src="settings.js"></script>
     <script src="boardCreation.js"></script>
     <script src="main.js"></script>
   </head>

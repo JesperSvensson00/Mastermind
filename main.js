@@ -1,23 +1,5 @@
-const pin_colors = {
-  white: '#FFFFFF',
-  blue: '#2196F3',
-  green: '#4CAF50',
-  red: '#F44336',
-  orange: '#FF9800',
-  magenta: '#9C27B0',
-  black: '#263238',
-};
+var pin_colors = color_palettes[3];
 
-var game = {
-  state: 'running',
-  code: [0, 0, 0, 0],
-  rows: [],
-  settings: {
-    rows: 10,
-    cols: 4,
-    duplicates: false,
-  },
-};
 for (let i = 0; i < game.settings.rows; i++) {
   game.rows.push({
     pins: [0, 0, 0, 0],
@@ -68,7 +50,32 @@ window.addEventListener('wheel', (evt) => {
   color_buttons[selected_color_index - 1].classList.add('activeColor');
 });
 
+document.querySelector('#themeSelect').onchange = () => {
+  let val = document.querySelector('#themeSelect').value;
+  pin_colors = color_palettes[val];
+
+  for (let i = 0; i < game.rows.length; i++) {
+    let row = game.rows[i].pins;
+    for (let j = 0; j < row.length; j++) {
+      let pin = document.querySelector(`#pin_${i}_${j}`);
+      pin.style.backgroundColor = pin_colors[Object.keys(pin_colors)[row[j]]];
+    }
+  }
+
+  for (let i = 0; i < 6; i++) {
+    let button = color_buttons[i];
+    button.style.backgroundColor = pin_colors[Object.keys(pin_colors)[i + 1]];
+  }
+
+  console.log(pin_colors);
+};
+
 function start() {
+  game.settings = {
+    rows: document.querySelector('input[name="rows"]').value,
+    cols: document.querySelector('#colsSelect').value,
+    duplicates: document.querySelector('#duplicatesInp').checked,
+  };
   createBoard(game.settings);
 
   active_row = 0;
@@ -90,10 +97,8 @@ function start() {
       let idx = (Math.random() * pool.length) << 0;
       game.code[i] = pool[idx];
       pool.splice(idx, 1);
-      console.log(pool);
     }
   }
-  console.log(game.code);
 }
 
 function checkRow() {
@@ -151,8 +156,6 @@ function checkRow() {
   check_buttons[check_buttons.length - active_row - 2].style.display = 'block';
   check_buttons[check_buttons.length - active_row - 1].style.display = 'none';
   active_row++;
-
-  console.log('Check row');
 }
 
 function setKeys() {
