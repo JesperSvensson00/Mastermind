@@ -1,19 +1,40 @@
 let board = document.querySelector('.boardWrapper');
 let cols = 4;
 let rows = 10;
-function createBoard() {
+function createBoard(settings) {
+  rows = settings.rows;
+  cols = settings.cols;
+
+  //Rensar board om det fann något tidigare
+  while (board.firstChild) {
+    board.removeChild(board.firstChild);
+  }
+
   //Code
   let codeRow = document.createElement('div');
   codeRow.setAttribute('class', 'rowWrapper');
   let codeWrapper = document.createElement('div');
   codeWrapper.setAttribute('class', 'pinWrapper');
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < cols; i++) {
     let button = document.createElement('button');
     button.setAttribute('class', 'pin');
     codeWrapper.appendChild(button);
   }
   codeRow.appendChild(codeWrapper);
+  //checkWrapper
+  let restartWrapper = document.createElement('div');
+  restartWrapper.setAttribute('class', 'restartWrapper');
+  let restart_button = document.createElement('button');
+  let restart_txt = document.createTextNode('Börja om');
+  restart_button.setAttribute('class', 'restart');
+  restart_button.appendChild(restart_txt);
+  restart_button.onclick = (evt) => {
+    start();
+  };
+  restartWrapper.appendChild(restart_button);
+  codeRow.append(restartWrapper);
   board.appendChild(codeRow);
+
   //Resterande rader
   for (let i = 0; i < rows; i++) {
     createRow(rows - i - 1);
@@ -27,7 +48,7 @@ function createRow(rowNr) {
   //pinWrapper
   let pinWrapper = document.createElement('div');
   pinWrapper.setAttribute('class', 'pinWrapper');
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < cols; i++) {
     createPin(pinWrapper, rowNr, i);
   }
   row.appendChild(pinWrapper);

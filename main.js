@@ -9,10 +9,16 @@ const pin_colors = {
 };
 
 var game = {
+  state: 'running',
   code: [0, 0, 0, 0],
   rows: [],
+  settings: {
+    rows: 10,
+    cols: 4,
+    duplicates: false,
+  },
 };
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < game.settings.rows; i++) {
   game.rows.push({
     pins: [0, 0, 0, 0],
     keys: [],
@@ -63,7 +69,7 @@ window.addEventListener('wheel', (evt) => {
 });
 
 function start() {
-  createBoard();
+  createBoard(game.settings);
 
   active_row = 0;
 
@@ -73,13 +79,27 @@ function start() {
 
   check_buttons[check_buttons.length - 1].style.display = 'block';
 
-  for (let i = 0; i < 4; i++) {
-    let idx = (Math.random() * 6 + 1) << 0;
-    game.code[i] = idx;
+  if (game.settings.duplicates) {
+    for (let i = 0; i < 4; i++) {
+      let idx = (Math.random() * 6 + 1) << 0;
+      game.code[i] = idx;
+    }
+  } else {
+    let pool = [1, 2, 3, 4, 5, 6];
+    for (let i = 0; i < 4; i++) {
+      let idx = (Math.random() * pool.length) << 0;
+      game.code[i] = pool[idx];
+      pool.splice(idx, 1);
+      console.log(pool);
+    }
   }
+  console.log(game.code);
 }
 
 function checkRow() {
+  if (!game.state == 'running') {
+    return;
+  }
   let not_perfect_pin = [];
   let not_perfect_code = [];
   let keys = game.rows[active_row].keys;
@@ -102,8 +122,8 @@ function checkRow() {
       not_perfect_code.splice(idx, 1);
     }
   }
-  console.log(game.rows[active_row].keys);
 
+  //Kollar om spelaren vunnit
   if (!keys.find((elem) => elem < 2) && keys.length > 3) {
     console.log('Du klarade det!');
     for (let i = 0; i < 4; i++) {
@@ -111,9 +131,22 @@ function checkRow() {
       let color = pin_colors[Object.keys(pin_colors)[game.code[i]]];
       pin.style.backgroundColor = color;
     }
+    check_buttons[check_buttons.length - active_row - 1].style.display = 'none';
+    return;
   }
 
   setKeys();
+  //Kollar om spelaren förlorat
+  if (active_row > 8) {
+    check_buttons[0].style.display = 'none';
+    console.log('Du klarade det tyvärr inte!');
+    for (let i = 0; i < 4; i++) {
+      let pin = code_pins[i];
+      let color = pin_colors[Object.keys(pin_colors)[game.code[i]]];
+      pin.style.backgroundColor = color;
+    }
+    return;
+  }
 
   check_buttons[check_buttons.length - active_row - 2].style.display = 'block';
   check_buttons[check_buttons.length - active_row - 1].style.display = 'none';
@@ -127,7 +160,7 @@ function setKeys() {
   for (let i = 0; i < game.rows[active_row].keys.length; i++) {
     let val = game.rows[active_row].keys[i];
     if (val == 2) {
-      keys[i].innerHTML = 'G';
+      keys[i].innerHTML = '⦿';
     }
     if (val == 1) {
       keys[i].innerHTML = '⌾';
