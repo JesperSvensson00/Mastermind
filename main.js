@@ -21,39 +21,14 @@ for (let i = 0; i < 4; i++) {
 
 var active_row = 0;
 
-var pins = [...document.querySelectorAll('button.pin')];
-var code_pins = pins.splice(0, 4);
+var pins = [];
+var code_pins = [];
+var check_buttons = [];
 var color_buttons = document.querySelectorAll('button.colorOption');
-var check_buttons = document.querySelectorAll('button.check');
 
 var selected_color = pin_colors.blue;
 var selected_color_index = 1;
 
-pins.forEach((pin) => {
-  //Vanligt vänsterklick
-  pin.onclick = (evt) => {
-    pin.style.backgroundColor = selected_color;
-
-    let id = evt.srcElement.id;
-    let col = id.split('_')[2];
-    game.rows[active_row].pins[col] = selected_color_index;
-    console.log(col);
-  };
-
-  //Mitten eller högerklick
-  pin.onauxclick = (evt) => {
-    evt.preventDefault();
-    pin.style.backgroundColor = pin_colors.white;
-  };
-});
-
-check_buttons.forEach((button) => {
-  button.style.display = 'none';
-  button.onclick = (evt) => {
-    checkRow();
-  };
-});
-check_buttons[check_buttons.length - 1].style.display = 'block';
 //Option knapparna
 for (let i = 0; i < 6; i++) {
   let button = color_buttons[i];
@@ -69,6 +44,7 @@ for (let i = 0; i < 6; i++) {
 
     button.classList.add('activeColor');
   };
+  if (i == 0) button.classList.add('activeColor');
 }
 
 window.addEventListener('wheel', (evt) => {
@@ -87,6 +63,16 @@ window.addEventListener('wheel', (evt) => {
 });
 
 function start() {
+  createBoard();
+
+  active_row = 0;
+
+  pins = [...document.querySelectorAll('button.pin')];
+  code_pins = pins.splice(0, 4);
+  check_buttons = document.querySelectorAll('button.check');
+
+  check_buttons[check_buttons.length - 1].style.display = 'block';
+
   for (let i = 0; i < 4; i++) {
     let idx = (Math.random() * 6 + 1) << 0;
     game.code[i] = idx;
@@ -96,11 +82,12 @@ function start() {
 function checkRow() {
   let not_perfect_pin = [];
   let not_perfect_code = [];
+  let keys = game.rows[active_row].keys;
 
   //Jämför koden rakt av med de inamtade pinnarna
   for (let i = 0; i < 4; i++) {
     if (game.code[i] == game.rows[active_row].pins[i]) {
-      game.rows[active_row].keys.push(2);
+      keys.push(2);
     } else {
       not_perfect_pin.push(game.rows[active_row].pins[i]);
       not_perfect_code.push(game.code[i]);
@@ -110,14 +97,14 @@ function checkRow() {
   //Kollar om färgen finns, om den gör det tas den bort för att undvika dubletter
   for (let i = 0; i < not_perfect_pin.length; i++) {
     if (not_perfect_code.find((elem) => elem == not_perfect_pin[i])) {
-      game.rows[active_row].keys.push(1);
+      keys.push(1);
       let idx = not_perfect_code.indexOf(not_perfect_pin[i]);
       not_perfect_code.splice(idx, 1);
     }
   }
   console.log(game.rows[active_row].keys);
 
-  if (!game.rows[active_row].keys.find((elem) => elem < 2)) {
+  if (!keys.find((elem) => elem < 2) && keys.length > 3) {
     console.log('Du klarade det!');
     for (let i = 0; i < 4; i++) {
       let pin = code_pins[i];
@@ -136,7 +123,7 @@ function checkRow() {
 }
 
 function setKeys() {
-  let keys = document.querySelectorAll('#keyRow0');
+  let keys = document.querySelectorAll(`#keyRow${active_row}`);
   for (let i = 0; i < game.rows[active_row].keys.length; i++) {
     let val = game.rows[active_row].keys[i];
     if (val == 2) {
