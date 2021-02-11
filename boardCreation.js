@@ -1,7 +1,8 @@
-let board = document.querySelector('.boardWrapper');
-let cols = 4;
-let rows = 10;
+let board;
+let cols;
+let rows;
 function createBoard(settings) {
+  board = document.querySelector('.boardWrapper');
   rows = settings.rows;
   cols = settings.cols;
 

@@ -1,3 +1,13 @@
+//Kollar om det är en saml skärm
+let ratio = window.innerHeight / window.innerWidth;
+console.log(ratio);
+if (ratio > 1.2) {
+  document.querySelector('.boardWrapper').remove();
+  let board = document.createElement('div');
+  board.setAttribute('class', 'boardWrapper');
+  document.querySelector('.gameWrapper').appendChild(board);
+}
+
 var pin_colors = color_palettes[3];
 
 var GAMEHASH = '';
@@ -269,7 +279,7 @@ function createHASH() {
     aplphaHash += String.fromCharCode(65 + parseInt(char, 26));
   }
 
-  location.assign('http://127.0.0.1:5500/#' + aplphaHash);
+  location.assign('#' + aplphaHash);
 
   return aplphaHash;
 }
