@@ -94,10 +94,15 @@ function start() {
   console.log('Hashen är ok: ' + checkValidHash(hash_inp));
   if (checkValidHash(hash_inp)) {
     let gameData = decryptHASH(hash_inp);
-    let c = gameData.substring(0, 4).split(''); //Code
-    let r = parseInt(gameData.substring(4, 6)); //Rows
-    let co = parseInt(gameData.substring(6, 7)); //Cols
-    let d = !!parseInt(gameData.substring(7, 8)); //Duplicates
+    let len = gameData.length;
+    let c = gameData.substring(0, len - 3).split(''); //Code
+    let d = parseInt(gameData.substring(len - 3, len - 2)); //Duplicates
+    let r = parseInt(gameData.substring(len - 2, len)); //Rows
+    let co = c.length;
+
+    if (co > 6) {
+      d = true;
+    }
     game.code = c;
     game.settings = {
       rows: r,
@@ -114,6 +119,11 @@ function start() {
       cols: document.querySelector('#colsSelect').value,
       duplicates: document.querySelector('#duplicatesInp').checked,
     };
+
+    if (game.settings.cols > 6) {
+      d = true;
+      document.querySelector('#duplicatesInp').checked = true;
+    }
 
     if (game.settings.duplicates) {
       for (let i = 0; i < game.settings.cols; i++) {
@@ -143,7 +153,7 @@ function start() {
   active_row = 0;
 
   pins = [...document.querySelectorAll('button.pin')];
-  code_pins = pins.splice(0, 4);
+  code_pins = pins.splice(0, game.settings.cols);
   check_buttons = document.querySelectorAll('button.check');
 
   check_buttons[check_buttons.length - 1].style.display = 'block';
@@ -191,10 +201,10 @@ function checkRow() {
   }
 
   //Kollar om spelaren vunnit
-  if (!keys.find((elem) => elem < 2) && keys.length > 3) {
+  if (!keys.find((elem) => elem < 2) && keys.length > game.settings.cols - 1) {
     game.state = 'won';
     console.log('Du klarade det!');
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < game.settings.cols; i++) {
       let pin = code_pins[i];
       let color = pin_colors[Object.keys(pin_colors)[game.code[i]]];
       pin.style.backgroundColor = color;
@@ -203,19 +213,21 @@ function checkRow() {
     return;
   }
 
-  setKeys();
   //Kollar om spelaren förlorat
-  if (active_row > 8) {
+  if (active_row > game.settings.rows - 2) {
     game.state = 'lost';
     check_buttons[0].style.display = 'none';
     console.log('Du klarade det tyvärr inte!');
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < game.settings.cols; i++) {
+      console.log(i);
       let pin = code_pins[i];
       let color = pin_colors[Object.keys(pin_colors)[game.code[i]]];
       pin.style.backgroundColor = color;
     }
     return;
   }
+
+  setKeys();
 
   check_buttons[check_buttons.length - active_row - 2].style.display = 'block';
   check_buttons[check_buttons.length - active_row - 1].style.display = 'none';
@@ -236,14 +248,13 @@ function setKeys() {
 }
 
 function createHASH() {
-  // ccccrrcod
+  // ccccCCCCdrr
   let c = game.code.toString().replace(/[ ,\[\]]/gm, '');
-  let r = ('0' + game.settings.rows).slice(-2);
-  let co = game.settings.cols;
   let d = game.settings.duplicates ? 1 : 0;
+  let r = ('0' + game.settings.rows).slice(-2);
 
-  let code = c + r + co + d;
-  // console.log('Code: ' + code);
+  let code = c + d + r;
+  console.log('Code: ' + code);
 
   //Kryptering
   let control = code % 7;
@@ -280,18 +291,29 @@ function decryptHASH(aplphaHash) {
 }
 
 function checkValidHash(hash) {
+  // ccccCCCCdrr
   hash = hash.toUpperCase();
-  if (hash !== '' && hash.length == 6) {
+  if (hash !== '' && hash.length > 6 && hash.length < 9) {
     //Kollar om den innehåller ogitliga tecken
     if (hash.match(/^[A-Z]+$/)) {
       //Dekryptera koden och kontrollera att den är giltig
       let code = decryptHASH(hash);
-      if (code.length == 8) {
-        let c = code.substring(0, 4).split(''); //Code
-        let r = parseInt(code.substring(4, 6)); //Rows
-        let co = parseInt(code.substring(6, 7)); //Cols
-        let d = parseInt(code.substring(7, 8)); //Duplicates
-        if (c.length == 4 && r > 1 && r < 100 && co < 9 && d < 2) {
+      let len = code.length;
+      if (len < 12) {
+        let c = code.substring(0, len - 3).split(''); //Code
+        let d = parseInt(code.substring(len - 3, len - 2)); //Duplicates
+        let r = parseInt(code.substring(len - 2, len)); //Rows
+
+        //Kollar att c är en fungerande kod
+        for (let i = 0; i < c.length; i++) {
+          let digit = c[i];
+          if (digit < 1 || digit > 6) {
+            console.log('Koden som angavs fungera inte. Felkod 4');
+            return false;
+          }
+        }
+
+        if (c.length > 3 && c.length < 9 && r > 1 && r < 100 && d < 2) {
           return true;
         }
         console.log('Koden som angavs är inte korrekt. 1');

@@ -38,6 +38,8 @@ body {
 .keyWrapper {
   float: left;
   margin-left: 10px;
+
+  user-select: none;
 }
 
 table {
@@ -54,8 +56,11 @@ table {
 }
 
 .checkWrapper {
+  margin: 0px 5px;
   display: inline-block;
   vertical-align: middle;
+
+  user-select: none;
 }
 
 .check {
@@ -183,7 +188,7 @@ p.activeSettings {
 }
 
 #gameHashInp {
-  width: 80px;
+  width: 102px;
 }
 
 #rowsInp {
