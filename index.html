@@ -1,4 +1,9 @@
 <html>
+  <head>
+    <title>Mastermind</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
   <body>
     <div class="gameWrapper">
       <div class="boardWrapper"></div>
@@ -24,7 +29,7 @@
 
             <label for="duplicates">Duplicates:</label>
             <input type="checkbox" name="duplicates" id="duplicatesInp" />
-
+            <br />
             <label for="theme">Tema:</label>
             <select name="theme" id="themeSelect">
               <option value="3">Vanlig</option>
@@ -32,18 +37,25 @@
               <option value="1">Beach</option>
               <option value="2">Pastele</option>
             </select>
+            <br />
+            <label for="gameHashInp">Kod:</label>
+            <input
+              type="text"
+              name="gameHashInp"
+              id="gameHashInp"
+              minlength="6"
+              maxlength="6"
+            />
+            <br />
+            <label for="gameHashTxt">Spel kod:</label>
+            <button id="gameHashTxt">######</button>
           </div>
         </div>
       </div>
     </div>
-  </body>
-
-  <head>
-    <title>Mastermind</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" />
+    <!-- Scripts -->
     <script src="settings.js"></script>
     <script src="boardCreation.js"></script>
     <script src="main.js"></script>
-  </head>
+  </body>
 </html>

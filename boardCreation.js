@@ -107,8 +107,11 @@ function createPin(pinWrapper, rowNr, col) {
   };
 
   button.onauxclick = (evt) => {
-    evt.preventDefault();
     button.style.backgroundColor = pin_colors.white;
     game.rows[active_row].pins[col] = 0;
+  };
+
+  button.oncontextmenu = (evt) => {
+    evt.preventDefault();
   };
 }
