@@ -1,22 +1,19 @@
 body {
   background-color: #f4f4f4;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .gameWrapper {
   margin: auto;
   margin-top: 5%;
   text-align: center;
-  /* background-color: cornsilk; */
 }
 
 .boardWrapper {
   display: inline-block;
   margin: auto;
-  /* background-color: green; */
 }
 
 .rowWrapper {
-  /* background-color: greenyellow; */
-  /* border-bottom: #6e6a64 2px solid; */
   margin-bottom: 2%;
   overflow: hidden;
 }
@@ -24,7 +21,6 @@ body {
 .pinWrapper {
   float: left;
   vertical-align: top;
-  /* background-color: pink; */
   border-right: #6e6a64 2px solid;
 }
 
@@ -32,6 +28,7 @@ body {
   width: 50px;
   height: 50px;
   margin: 0px 6px;
+  cursor: pointer;
   background-color: white;
   border-radius: 50%;
   border: #9e9e9e 2px solid;
@@ -41,7 +38,6 @@ body {
 .keyWrapper {
   float: left;
   margin-left: 10px;
-  /* background-color: royalblue; */
 }
 
 table {
@@ -55,7 +51,6 @@ table {
   margin: 0px;
   padding: 0px;
   font-size: 18px;
-  /* font-weight: bold; */
 }
 
 .checkWrapper {
@@ -121,7 +116,8 @@ table {
   display: inline-block;
   vertical-align: top;
   text-align: center;
-  /* background-color: grey; */
+
+  /* background-color: aquamarine; */
 }
 
 .colorOption {
@@ -132,6 +128,7 @@ table {
   padding: 0px;
   background-color: white;
   border-radius: 50%;
+  cursor: pointer;
 
   outline: none;
   box-shadow: none;
@@ -141,8 +138,54 @@ table {
 .activeColor {
   width: 50px;
   height: 50px;
-  /* border: rgb(138, 128, 95) 1px solid; */
   box-shadow: 0px 0px 5px 3px rgb(139, 137, 129);
-  /* box-shadow: inset 0px 0px 4px 0px rgba(56, 55, 52, 0.63); */
-  /* border: #f7d608 2px solid; */
+}
+
+.settingsWrapper {
+  text-align: left;
+  display: inline-block;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+  height: 0px;
+  opacity: 0;
+}
+
+div.activeSettings {
+  height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.settingsBtn {
+  margin: 0;
+  /* width: 100px; */
+  margin-bottom: 10px;
+  user-select: none;
+}
+
+p.activeSettings {
+  padding-bottom: 6px;
+  border-bottom: #6e6a64 2px solid;
+}
+
+.settingsWrapper input,
+.settingsWrapper select {
+  float: right;
+  font-size: 16px;
+}
+
+.settingsRowWrapper {
+  height: 30px;
+  margin-bottom: 2px;
+  /* display: table-cell; */
+  vertical-align: middle;
+  /* background-color: blueviolet; */
+}
+
+#gameHashInp {
+  width: 80px;
+}
+
+#rowsInp {
+  width: 50px;
 }

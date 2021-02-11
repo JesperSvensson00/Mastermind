@@ -16,42 +16,51 @@
         <button class="colorOption" id="6"></button>
         <div class="menuWrapper">
           <p class="settingsBtn">Inställningar</p>
-          <div class="settingsWrapper">
-            <label for="rows">Antal rader:</label>
-            <input name="rows" type="number" value="10" min="1" max="16" />
+          <div class="settingsWrapper activeSettings">
+            <div class="settingsRowWrapper">
 
-            <label for="cols">Antal pins:</label>
-            <select name="cols" id="colsSelect">
-              <option value="4">4</option>
-              <option value="6">6</option>
-              <option value="8">8</option>
-            </select>
+              <label for="rows">Antal rader:</label>
+              <input id="rowsInp" type="number" value="10" min="1" max="16" />
+            </div>
 
-            <label for="duplicates">Duplicates:</label>
-            <input type="checkbox" name="duplicates" id="duplicatesInp" />
-            <br />
-            <label for="theme">Tema:</label>
-            <select name="theme" id="themeSelect">
-              <option value="3">Vanlig</option>
-              <option value="0">Nästan</option>
-              <option value="1">Beach</option>
-              <option value="2">Pastele</option>
-            </select>
-            <br />
-            <label for="gameHashInp">Kod:</label>
-            <input
-              type="text"
-              name="gameHashInp"
-              id="gameHashInp"
-              minlength="6"
-              maxlength="6"
-            />
-            <br />
-            <label for="gameHashTxt">Spel kod:</label>
-            <button id="gameHashTxt">######</button>
+            <div class="settingsRowWrapper">
+              <label for="cols">Antal pins:</label>
+              <select name="cols" id="colsSelect">
+                <option value="4">4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+
+            <div class="settingsRowWrapper">
+              <label for="duplicates">Dubbletter:</label>
+              <input type="checkbox" name="duplicates" id="duplicatesInp" />
+            </div>
+              <div class="settingsRowWrapper">
+                <label for="theme">Tema:</label>
+                <select name="theme" id="themeSelect">
+                  <option value="3">Vanlig</option>
+                  <option value="0">Nästan</option>
+                  <option value="1">Beach</option>
+                  <option value="2">Pastele</option>
+                </select>
+              </div>
+              <div class="settingsRowWrapper">
+                <label for="gameHashInp">Kod:</label>
+                <input
+                type="text"
+                name="gameHashInp"
+                id="gameHashInp"
+                minlength="6"
+                maxlength="6"
+                />
+              </div>
+            <div class="settingsRowWrapper">
+              <label for="gameHashTxt">Spel kod:</label>
+              <button id="gameHashTxt">######</button>
+            </div>
           </div>
         </div>
-      </div>
     </div>
     <!-- Scripts -->
     <script src="settings.js"></script>

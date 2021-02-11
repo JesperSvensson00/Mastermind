@@ -80,6 +80,14 @@ document.querySelector('#gameHashTxt').onclick = () => {
   temp.remove();
 };
 
+document.querySelector('.settingsBtn').onclick = () => {
+  let wrapper = document.querySelector('.settingsWrapper');
+  wrapper.classList.toggle('activeSettings');
+
+  let button = document.querySelector('.settingsBtn');
+  button.classList.toggle('activeSettings');
+};
+
 function start() {
   game.state = 'running';
   let hash_inp = document.querySelector('#gameHashInp').value;
@@ -97,12 +105,12 @@ function start() {
       duplicates: d,
     };
     //Ändra inställningarna i menyn
-    document.querySelector('input[name="rows"]').value = r;
+    document.querySelector('#rowsInp').value = r;
     document.querySelector('#colsSelect').value = co;
     document.querySelector('#duplicatesInp').checked = d;
   } else {
     game.settings = {
-      rows: document.querySelector('input[name="rows"]').value,
+      rows: document.querySelector('#rowsInp').value,
       cols: document.querySelector('#colsSelect').value,
       duplicates: document.querySelector('#duplicatesInp').checked,
     };
@@ -172,10 +180,13 @@ function checkRow() {
 
   //Kollar om färgen finns, om den gör det tas den bort för att undvika dubletter
   for (let i = 0; i < not_perfect_pin.length; i++) {
-    if (not_perfect_code.find((elem) => elem == not_perfect_pin[i])) {
-      keys.push(1);
-      let idx = not_perfect_code.indexOf(not_perfect_pin[i]);
-      not_perfect_code.splice(idx, 1);
+    let pin = not_perfect_pin[i];
+    for (let j = 0; j < not_perfect_code.length; j++) {
+      let code_pin = not_perfect_code[j];
+      if (pin == code_pin) {
+        keys.push(1);
+        not_perfect_code.splice(j, 1);
+      }
     }
   }
 
@@ -294,14 +305,6 @@ function checkValidHash(hash) {
   } else {
     return false;
   }
-}
-
-function getHashFromLink() {
-  let hash = location.hash;
-  if (checkValidHash(hash)) {
-    return hash;
-  }
-  return null;
 }
 
 start();
