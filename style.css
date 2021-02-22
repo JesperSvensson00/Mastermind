@@ -4,13 +4,21 @@ body {
 }
 .gameWrapper {
   margin: auto;
-  margin-top: 5%;
+  margin-top: 2%;
   text-align: center;
+}
+
+.gameWrapper h1 {
+  font-size: 40px;
+  text-transform: uppercase;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  letter-spacing: 0.5em;
 }
 
 .boardWrapper {
   display: inline-block;
   margin: auto;
+  white-space: nowrap;
 }
 
 .rowWrapper {
