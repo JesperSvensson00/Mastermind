@@ -131,7 +131,7 @@ function start() {
     };
 
     if (game.settings.cols > 6) {
-      d = true;
+      game.settings.duplicates = true;
       document.querySelector('#duplicatesInp').checked = true;
     }
 
